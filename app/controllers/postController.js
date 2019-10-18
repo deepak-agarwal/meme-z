@@ -25,8 +25,8 @@ module.exports.update = function(req, res) {
 
 //list posts based on if verifier length > 1,and isVerifiedtrue.
 module.exports.list = function(req, res) {
-    Post.find({ isVerfied: true })
-        .populate(userId)
+	Post.find({ isVerfied: true ,isDeleted:false})
+		.populate(userId)
 		.then(posts => {
 			res.json(posts)
 		})
@@ -82,11 +82,49 @@ module.exports.decreaseVote = function(req, res) {
 		})
 }
 
-module.exports.listByUser = (req,res) => {
+module.exports.listByUser = (req, res) => {
 	const userId = req.user._id
-	Post.find({userId})
-	.then(response => {
-		res.json(response)
+	Post.find({ userId })
+		.then(response => {
+			res.json(response)
+		})
+		.catch(err => res.json(err))
+}
+
+
+// to destroy the post, we have to compare if its the user who created it and then soft destroy it
+module.exports.destroy = (req, res) => {
+	const userId = req.user._id
+	const _id = { _id } = req.body
+	Post.findOne({ _id })
+		.then(post => {
+			if (post.userId === userId) {
+				post.isDeleted = true
+				post.save()
+				.then(post => {
+					res.json({message:'Delete Successsful'})
+				})
+			}
+		})
+		.catch(err => res.json(err))
+}
+
+
+//post can only be updated before they are verified. a delay of 10 min to be added before post are sent for verification.
+
+module.exports.update = (req,res) => {
+	const {_id , caption , category , image}= req.body
+	Post.findOne({_id})
+	.then(post =>{
+		if(post.isVerfied){
+			res.json({error :'Cannot Edit after Verification.'})
+		}
+		else{
+			Post.findOneAndUpdate({_id},{caption,category,image})
+			.then(post => {
+				res.json(post)
+			})
+		}
 	})
 	.catch(err => res.json(err))
 }

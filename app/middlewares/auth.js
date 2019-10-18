@@ -23,8 +23,8 @@ const authenticate = function (req, res, next) {
     }
 }
 
-const authorise  = function(req,res,next){
-    if(req.role == 'Admin'){
+const authoriseMod  = function(req,res,next){
+    if(req.role == 'Moderator'){
         next()
     }
     else{
@@ -34,7 +34,21 @@ const authorise  = function(req,res,next){
     }
 }
 
+const authoriseAdmin = function(req,res,next)
+{
+    if(req.role === 'Admin'){
+        next()
+    }
+    else {
+        res.status('403').send({error:'User not Authorised'})
+    }
+}
+
+
+
+
 module.exports = {
     authenticate,
-    authorise
+    authoriseMod,
+    authoriseAdmin
 }

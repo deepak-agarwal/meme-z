@@ -16,3 +16,14 @@ module.exports.create = (req, res) => {
 		.then(response => res.json(response))
 		.catch(err => res.json(err))
 }
+
+module.exports.update = (req, res) => {
+	const { name, _id } = req.body
+	Category.findByIdAndUpdate({ _id }, { name })
+		.then(category => 
+			res.json(category)
+		)
+		.catch(err => res.json(err))
+}
+
+//destroy should not be there.

@@ -72,7 +72,11 @@ const postSchema = new Schema({
             default:false
         }
     }],
-    comment:[commentSchema]
+    comment:[commentSchema],
+    isDeleted:{
+        type:Boolean,
+        default:false
+    }
 })
 
 upVotesSchema.pre('save',function(next){
@@ -80,6 +84,18 @@ upVotesSchema.pre('save',function(next){
 
 })
 
+postSchema.post('save', function(next){
+    const post = this
+    if(post.isNew){
+        //assign mod here 
+        
+        next()
+    }
+    else{
+        next()
+    }
+})
 const Post = mongoose.Schema("Post", postSchema)
 
 module.exports = Post
+
