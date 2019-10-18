@@ -58,10 +58,6 @@ const postSchema = new Schema({
 	},
 	upVotes: [upVotesSchema],
 	downVotes: [downVotesSchema],
-	isVerified: {
-		type: Boolean,
-		default: false
-    },
     verifierIds :[{
         userId :{
             type:Schema.Types.ObjectId,
@@ -70,6 +66,10 @@ const postSchema = new Schema({
         createdAt:{
             type:Date,
             default:Date.now()
+        },
+        isVerified:{
+            type:Boolean,
+            default:false
         }
     }],
     comment:[commentSchema]
