@@ -23,7 +23,7 @@ module.exports.update = function(req, res) {
 		.catch(err => res.json(err))
 }
 
-//list posts based on if verifier length > 1,and isVerifiedtrue.
+//list posts based on if verifed true (will be achived by checking if both are verified in pre save),and isVerifiedtrue.
 module.exports.list = function(req, res) {
 	Post.find({ isVerfied: true ,isDeleted:false})
 		.populate(userId)
@@ -49,7 +49,8 @@ module.exports.increaseVote = function(req, res) {
 	Post.findOneById(postId)
 		.then(post => {
 			if (post.upVotes.find(upvote => upvote.userId === userId)) {
-				res.json({ message: "Already Upvoted" })
+				post.upVotes({$pull:{userId}})
+				res.json(post)
 			} else {
 				post.upVotes.push({ userId })
 				post

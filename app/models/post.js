@@ -1,5 +1,6 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
+const Profile = require('./profile')
 
 const commentSchema = new Schema({
 	userId: {
@@ -84,11 +85,20 @@ upVotesSchema.pre('save',function(next){
 
 })
 
-postSchema.post('save', function(next){
+postSchema.pre('save', function(next){
     const post = this
     if(post.isNew){
         //assign mod here 
-        
+        Profile.find({isMod})
+        .then(
+            profiles => {
+                const length = profiles.length
+                const a = [0,0]
+                const randValues = a.map(value => {
+                    Math.random(length)
+                })
+            }
+        )
         next()
     }
     else{

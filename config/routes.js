@@ -4,6 +4,7 @@ const postCotroller = require('../app/controllers/postController')
 const auth = require('../app/middlewares/auth')
 const categoryController = require('../app/controllers/categoryController')
 const multer = require('multer')
+const userController = require('../app/controllers/userController')
 // install multer
 
 const storage = multer.diskStorage({
@@ -24,3 +25,7 @@ router.put('/posts',auth.authenticate,postCotroller.update)
 router.get('/category',categoryController.list)
 router.post('/category',auth.authenticate,auth.authoriseAdmin,categoryController.create)
 router.put('/category',auth.authenticate,auth.authoriseAdmin,categoryController.update)
+
+
+router.post('/register',userController.register)
+router.post('login',userController.login)

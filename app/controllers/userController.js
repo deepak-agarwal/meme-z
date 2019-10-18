@@ -45,10 +45,4 @@ module.exports.update = (req,res) => {
     })
 }
 
-module.exports.destroy = (req,res) => {
-    User.findOneAndDelete({_id:req.body._id})
-    .then(user =>{
-        res.json(user)
-    })
-    .catch(err => console.log(err))
-}
+
