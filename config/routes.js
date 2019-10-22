@@ -5,7 +5,13 @@ const auth = require('../app/middlewares/auth')
 const categoryController = require('../app/controllers/categoryController')
 const multer = require('multer')
 const userController = require('../app/controllers/userController')
-// install multer
+
+
+//Types of user using the app. 
+//ALL - content accessible to all. 
+//Admin - coontent accessible to Admins (that is the developer)
+//Mod - content routes for the moderator.
+//User - Logged in user.
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -22,6 +28,8 @@ router.get('/user/posts',auth.authenticate,postCotroller.listByUser)
 router.post('/posts',auth.authenticate,upload.single('photo'),postCotroller.create)
 router.delete('/posts',auth.authenticate,postCotroller.destroy)
 router.put('/posts',auth.authenticate,postCotroller.update)
+
+//listing of category , will be allowed to ALL.
 router.get('/category',categoryController.list)
 router.post('/category',auth.authenticate,auth.authoriseAdmin,categoryController.create)
 router.put('/category',auth.authenticate,auth.authoriseAdmin,categoryController.update)
@@ -29,3 +37,4 @@ router.put('/category',auth.authenticate,auth.authoriseAdmin,categoryController.
 
 router.post('/register',userController.register)
 router.post('login',userController.login)
+router.delete('/logout',auth.authenticate,user.logout)

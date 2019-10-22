@@ -81,10 +81,12 @@ const postSchema = new Schema({
 })
 
 upVotesSchema.pre('save',function(next){
-    const upVotes = this 
+    const upVotes = this
 
 })
 
+
+//for assigning mod.
 postSchema.pre('save', function(next){
     const post = this
     if(post.isNew){
@@ -103,6 +105,15 @@ postSchema.pre('save', function(next){
     }
     else{
         next()
+    }
+})
+
+
+postSchema.post('save', function (next){
+    const post = this 
+    if(post.isNew){
+        const id = post.userId
+         
     }
 })
 const Post = mongoose.Schema("Post", postSchema)
