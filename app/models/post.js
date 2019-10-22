@@ -86,27 +86,7 @@ upVotesSchema.pre('save',function(next){
 })
 
 
-//for assigning mod.
-postSchema.pre('save', function(next){
-    const post = this
-    if(post.isNew){
-        //assign mod here 
-        Profile.find({isMod})
-        .then(
-            profiles => {
-                const length = profiles.length
-                const a = [0,0]
-                const randValues = a.map(value => {
-                    Math.random(length)
-                })
-            }
-        )
-        next()
-    }
-    else{
-        next()
-    }
-})
+//for assigning mod using pre save
 
 
 postSchema.post('save', function (next){
