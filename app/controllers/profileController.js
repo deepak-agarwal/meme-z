@@ -4,7 +4,12 @@ module.exports.list = function (req,res){
     const id = req.params.id
     Profile.findById(id)
     .then(profile => {
-        res.status(200).json(profile)
+        if(profile.isBanned){
+            res.status(201).json({message:'Banned'})
+        }
+        else{
+            res.status(200).json(profile)
+        }
     })
     .catch(err => {
         res.status(501).json(err)
