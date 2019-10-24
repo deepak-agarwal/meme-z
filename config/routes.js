@@ -5,7 +5,7 @@ const auth = require('../app/middlewares/auth')
 const categoryController = require('../app/controllers/categoryController')
 const multer = require('multer')
 const userController = require('../app/controllers/userController')
-
+const profileController = require('../app/controllers/profileController')
 
 //Types of user using the app. 
 //ALL - content accessible to all. 
@@ -27,11 +27,21 @@ router.get('/posts',postCotroller.list)
 router.get('/user/posts',auth.authenticate,postCotroller.listByUser)
 router.post('/posts',auth.authenticate,upload.single('photo'),postCotroller.create)
 router.delete('/posts',auth.authenticate,postCotroller.destroy)
-router.put('/posts',auth.authenticate,postCotroller.update)
+router.put('/posts',auth.authenticate,postController.update)
+
+
+//profile.
+router.get('/profile/:id',profileController.list)
+router.post('/profile',auth.authenticate,upload.single('avatar'),postController.create)
+router.put('/profile',auth.authenticate,upload.single('avatar'),postController.update)
+router.delete('/profile',auth.authenticate,auth.authoriseMod,profileController.ban)
+
 
 //listing of category , will be allowed to ALL.
 router.get('/category',categoryController.list)
+//only admin can create a category
 router.post('/category',auth.authenticate,auth.authoriseAdmin,categoryController.create)
+//only adin can update a catergory
 router.put('/category',auth.authenticate,auth.authoriseAdmin,categoryController.update)
 
 

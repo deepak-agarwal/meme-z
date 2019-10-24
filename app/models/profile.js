@@ -24,6 +24,11 @@ const profileSchema = new Schema({
     isBanned:{
         type:Boolean,
         default:false
+    },
+    bannedBy:{
+        type:Schema.Types.ObjectId,
+        ref: 'Users',
+        default:null
     }
 })
 
