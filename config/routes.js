@@ -1,6 +1,6 @@
-const express = require('expresss')
+const express = require('express')
 const router = express.Router()
-const postCotroller = require('../app/controllers/postController')
+const postController = require('../app/controllers/postController')
 const auth = require('../app/middlewares/auth')
 const categoryController = require('../app/controllers/categoryController')
 const multer = require('multer')
@@ -23,10 +23,10 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
-router.get('/posts',postCotroller.list)
-router.get('/user/posts',auth.authenticate,postCotroller.listByUser)
-router.post('/posts',auth.authenticate,upload.single('photo'),postCotroller.create)
-router.delete('/posts',auth.authenticate,postCotroller.destroy)
+router.get('/posts',postController.list)
+router.get('/user/posts',auth.authenticate,postController.listByUser)
+router.post('/posts',auth.authenticate,upload.single('photo'),postController.create)
+router.delete('/posts',auth.authenticate,postController.destroy)
 router.put('/posts',auth.authenticate,postController.update)
 
 
@@ -47,4 +47,6 @@ router.put('/category',auth.authenticate,auth.authoriseAdmin,categoryController.
 
 router.post('/register',userController.register)
 router.post('login',userController.login)
-router.delete('/logout',auth.authenticate,user.logout)
+router.delete('/logout',auth.authenticate,userController.logout)
+
+module.exports = router

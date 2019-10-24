@@ -81,12 +81,6 @@ const postSchema = new Schema({
     }
 })
 
-upVotesSchema.pre('save',function(next){
-    const upVotes = this
-
-})
-
-
 //for assigning mod using pre save
 postSchema.pre('save',function(next){
     const post = this 
@@ -126,7 +120,7 @@ postSchema.post('save', function (next){
         
     }
 })
-const Post = mongoose.Schema("Post", postSchema)
+
+const Post = mongoose.model("Post", postSchema)
 
 module.exports = Post
-
